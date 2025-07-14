@@ -12,8 +12,7 @@
             font-family: 'Courier New', monospace;
             display: flex;
             flex-direction: row;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
         }
 
         .id-card {
@@ -23,55 +22,17 @@
             border: 2px solid rgba(51, 255, 51, 0.4);
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             flex-direction: column;
             box-shadow: 0 0 30px rgba(255, 0, 0, 0.5), inset 0 0 20px rgba(51, 255, 51, 0.2);
-            position: relative;
-            padding-top: 200px;
             backdrop-filter: blur(8px);
             border-radius: 16px;
-        }
-
-        .lanyard {
-            width: 10px;
-            height: 180px;
-            background: linear-gradient(to bottom, #555, #111);
-            border-radius: 10px;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 15px rgba(51, 255, 51, 0.4);
-        }
-
-        .clip {
-            width: 20px;
-            height: 20px;
-            background: #222;
-            border: 4px solid #111;
-            border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.5);
-            position: absolute;
-            top: 180px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-        }
-
-        .hanger {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 20px;
         }
 
         .id-frame {
             width: 220px;
             max-width: 90%;
-            height: auto;
             aspect-ratio: 2 / 3;
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid #33ff33;
@@ -92,12 +53,11 @@
 
         .terminal {
             flex: 1;
-            padding: 20px;
             display: flex;
             flex-direction: column;
             background: rgba(20, 20, 20, 0.5);
             box-shadow: inset 0 0 20px rgba(51, 255, 51, 0.2);
-            min-width: 0;
+            overflow-y: auto;
         }
 
         .output {
@@ -111,7 +71,7 @@
 
         .input-line {
             display: flex;
-            margin-top: 10px;
+            margin: 10px;
             flex-wrap: wrap;
         }
 
@@ -132,10 +92,6 @@
             caret-color: #33ff33;
         }
 
-        .output div {
-            transition: all 0.3s ease-in-out;
-        }
-
         .intro-text {
             color: #33ff33;
             font-family: 'Courier New', monospace;
@@ -151,20 +107,18 @@
             body {
                 flex-direction: column;
             }
+
             .id-card {
                 width: 100%;
                 max-width: none;
                 flex-direction: row;
                 justify-content: center;
-                padding-top: 20px;
-                padding-bottom: 20px;
             }
-            .hanger {
-                position: static;
-                transform: none;
-            }
+
             .terminal {
                 width: 100%;
+                max-height: 100vh;
+                overflow-y: auto;
             }
         }
     </style>
@@ -172,12 +126,8 @@
 
 <body>
     <div class="id-card">
-        <div class="lanyard"></div>
-        <div class="clip"></div>
-        <div class="hanger">
-            <div class="id-frame">
-                <img src="Samar Abbas.jpg" alt="ID Photo" />
-            </div>
+        <div class="id-frame">
+            <img src="Samar Abbas.jpg" alt="ID Photo" />
         </div>
     </div>
 
@@ -201,7 +151,7 @@
 
         const commands = {
             help: `Available commands:\n\nabout\nprojects\nskills\nexperience\ncontact\neducation\ncertifications\nleadership\nclear\n\nType any command to know about me!\n\n`,
-            about: "Hi, I’m Samar Abbas, a motivated and detail-oriented Computer Science student with a passion for Machine Learning and intelligent system design. I enjoy working on real-world problems through Python and ML technologies, constantly exploring new concepts and tools.",
+            about: "Hi, I’m Samar Abbas, a motivated and detail-oriented Computer Science student with a passion for Machine Learning and intelligent system design.",
             projects: `Smart Traffic License Verification System
 → Python, OCR – Streamlit, Tesseract OCR, OpenCV, Pandas
 → License verification via CNIC scanning using OCR.
