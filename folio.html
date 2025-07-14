@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terminal Portfolio with Lanyard Style</title>
+    <style>
+        body {
+            margin: 0;
+            background: radial-gradient(ellipse at center, #0a0a0a 0%, #000 100%);
+            color: #33ff33;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .id-card {
+            width: 300px;
+            max-width: 40vw;
+            background: rgba(20, 20, 20, 0.7);
+            border: 2px solid rgba(51, 255, 51, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5), inset 0 0 20px rgba(51, 255, 51, 0.2);
+            position: relative;
+            padding-top: 200px;
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+        }
+
+        .lanyard {
+            width: 10px;
+            height: 180px;
+            background: linear-gradient(to bottom, #555, #111);
+            border-radius: 10px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px rgba(51, 255, 51, 0.4);
+        }
+
+        .clip {
+            width: 20px;
+            height: 20px;
+            background: #222;
+            border: 4px solid #111;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.5);
+            position: absolute;
+            top: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .hanger {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .id-frame {
+            width: 220px;
+            max-width: 90%;
+            height: auto;
+            aspect-ratio: 2 / 3;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #33ff33;
+            box-shadow: 0 0 25px rgba(51, 255, 51, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+        }
+
+        .id-frame img {
+            width: 90%;
+            height: 90%;
+            object-fit: cover;
+            border: 3px solid #33ff33;
+            border-radius: 8px;
+        }
+
+        .terminal {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            background: rgba(20, 20, 20, 0.5);
+            box-shadow: inset 0 0 20px rgba(51, 255, 51, 0.2);
+            min-width: 0;
+        }
+
+        .output {
+            flex: 1;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(51, 255, 51, 0.2) inset;
+        }
+
+        .input-line {
+            display: flex;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .input-line span {
+            color: #39ff14;
+            margin-right: 5px;
+        }
+
+        .input-line input {
+            background: transparent;
+            border: none;
+            color: #33ff33;
+            flex: 1;
+            min-width: 150px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            outline: none;
+            caret-color: #33ff33;
+        }
+
+        .output div {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .intro-text {
+            color: #33ff33;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+            opacity: 0.9;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(51, 255, 51, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .id-card {
+                width: 100%;
+                max-width: none;
+                flex-direction: row;
+                justify-content: center;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            .hanger {
+                position: static;
+                transform: none;
+            }
+            .terminal {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="id-card">
+        <div class="lanyard"></div>
+        <div class="clip"></div>
+        <div class="hanger">
+            <div class="id-frame">
+                <img src="Samar Abbas.jpg" alt="ID Photo" />
+            </div>
+        </div>
+    </div>
+
+    <div class="terminal">
+        <div class="intro-text" id="intro-text">
+            Welcome to Samar Abbas Terminal Portfolio.<br />
+            Type <strong>help</strong> and press Enter to get started!
+        </div>
+        <div class="output" id="output"></div>
+        <div class="input-line">
+            <span>CommandPrompt:~$</span>
+            <input type="text" id="command-input" autofocus />
+        </div>
+    </div>
+
+    <script>
+        const output = document.getElementById('output');
+        const input = document.getElementById('command-input');
+        const introText = document.getElementById('intro-text');
+        let firstCommandEntered = false;
+
+        const commands = {
+            help: `Available commands:\n\nabout\nprojects\nskills\nexperience\ncontact\neducation\ncertifications\nleadership\nclear\n\nType any command to know about me!\n\n`,
+            about: "Hi, I’m Samar Abbas, a motivated and detail-oriented Computer Science student...",
+            projects: "Project details here...",
+            skills: "Skills list here...",
+            experience: "4+ Months as Software Developer",
+            contact: "Email: Samarabbas0425@gmail.com",
+            education: "BSc Computer Science, University of Narowal",
+            certifications: "AWS Certified, Google ML Crash Course",
+            leadership: "Tech Society Member, Computer Science Tutor",
+            clear: "clear"
+        };
+
+        function processCommand(cmd) {
+            if (!firstCommandEntered) {
+                introText.style.display = 'none';
+                firstCommandEntered = true;
+            }
+
+            const cleanCmd = cmd.toLowerCase().trim();
+            if (commands[cleanCmd]) {
+                if (cleanCmd === 'clear') {
+                    output.innerHTML = '';
+                } else {
+                    output.innerHTML += `<div>CommandPrompt:~$ ${cmd}</div>`;
+                    output.innerHTML += `<div>${commands[cleanCmd].replace(/\n/g, '<br>')}</div><br>`;
+                }
+            } else {
+                output.innerHTML += `<div>CommandPrompt:~$ ${cmd}</div>`;
+                output.innerHTML += `<div>Command not found: ${cmd}</div><br>`;
+            }
+            output.scrollTop = output.scrollHeight;
+        }
+
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                if (input.value.trim() !== '') {
+                    processCommand(input.value);
+                    input.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
